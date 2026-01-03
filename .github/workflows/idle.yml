@@ -1,28 +1,24 @@
-name: Steam Idle Python
+name: Steam_Idle_War_Thunder
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  run_idle:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          repository: 'jayme-github/steam_idle'
+      - name: Clone Simple Script
+        run: git clone https://github.com/jayme-github/steam_idle.git .
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install Steam Library
+      - name: Install Steam Lib
         run: pip install steam[client]
 
-      - name: Run Idle
+      - name: Run
         env:
-          STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
-          STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
-        run: |
-          # Запускаем скрипт для War Thunder (ID 236390)
-          python main.py "$STEAM_USERNAME" "$STEAM_PASSWORD" 236390
+          STEAM_USER: ${{ secrets.STEAM_USERNAME }}
+          STEAM_PASS: ${{ secrets.STEAM_PASSWORD }}
+        run: python3 main.py "$STEAM_USER" "$STEAM_PASS" 236390
