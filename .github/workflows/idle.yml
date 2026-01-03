@@ -1,4 +1,4 @@
-name: Steam_Idle_War_Thunder
+name: Steam_Idle_FINAL
 on:
   workflow_dispatch:
 
@@ -6,19 +6,28 @@ jobs:
   run_idle:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone Simple Script
-        run: git clone https://github.com/jayme-github/steam_idle.git .
+      - name: Clear everything
+        run: |
+          # Удаляем нафиг всё старое, чтобы не было ошибок с Electron
+          rm -rf ./*
+          rm -rf .github
 
+      - name: Clone Clean Script
+        run: |
+          git clone https://github.com/jayme-github/steam_idle.git .
+          
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install Steam Lib
+      - name: Install Steam
         run: pip install steam[client]
 
       - name: Run
         env:
           STEAM_USER: ${{ secrets.STEAM_USERNAME }}
           STEAM_PASS: ${{ secrets.STEAM_PASSWORD }}
-        run: python3 main.py "$STEAM_USER" "$STEAM_PASS" 236390
+        run: |
+          # Теперь запускается ТОЛЬКО Python-скрипт Jayme
+          python3 main.py "$STEAM_USER" "$STEAM_PASS" 236390
